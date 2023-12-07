@@ -6,7 +6,7 @@ class Fraction {
         ~Fraction();
         Fraction(const Fraction &f);
 
-        Fraction& operator=(const Fraction &f);
+        Fraction& operator=(const Fraction& f);
         Fraction add(const Fraction&);
         Fraction subtract(const Fraction&);
         Fraction multiply(const Fraction&);
