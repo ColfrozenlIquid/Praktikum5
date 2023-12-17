@@ -1,68 +1,69 @@
 #include <iostream>
 #include "fraction.hpp"
 
-Fraction::Fraction(int n, int d) : numerator(n), denominator(d) {
-    std::cout << "Calling default constructor Fraction" << std::endl;
+Fraction::Fraction(int n, int d) : m_numerator(n), m_denominator(d) {
+    //std::cout << "Calling default constructor Fraction" << std::endl;
 }
 
 Fraction::Fraction(const Fraction& f){
-    this->numerator = f.numerator;
-    this->denominator = f.denominator;
-    std::cout << "Calling constructor fraction" << std::endl;
+    this->m_numerator = f.m_numerator;
+    this->m_denominator = f.m_denominator;
+    //std::cout << "Calling constructor fraction" << std::endl;
 }
 
 Fraction::~Fraction() {
-    std::cout << "Calling destructor Fraction" << std::endl;
+    //std::cout << "Calling destructor Fraction" << std::endl;
 }
 
 Fraction& Fraction::operator=(const Fraction& f) {
-    std::cout << "Calling copy assignment operator" << std::endl;
-    this->numerator = f.numerator;
-    this->denominator = f.denominator;
+    //std::cout << "Calling copy assignment operator" << std::endl;
+    this->m_numerator = f.m_numerator;
+    this->m_denominator = f.m_denominator;
     return *this;
 }
 
 Fraction Fraction::add(const Fraction& f) {
     Fraction result;
-    result.numerator = this->numerator * f.denominator + f.numerator * this->denominator;
-    result.denominator = this->denominator * f.denominator;
+    result.m_numerator = this->m_numerator * f.m_denominator + f.m_numerator * this->m_denominator;
+    result.m_denominator = this->m_denominator * f.m_denominator;
     return result;
 }
 
 Fraction Fraction::subtract(const Fraction& f) {
     Fraction result;
-    result.numerator = this->numerator * f.denominator - this->numerator * f.denominator;
-    result.denominator = this->denominator * f.denominator;
+    result.m_numerator = this->m_numerator * f.m_denominator - this->m_numerator * f.m_denominator;
+    result.m_denominator = this->m_denominator * f.m_denominator;
     return result;
 }
 
 Fraction Fraction::multiply(const Fraction& f){
     Fraction result;
-    result.numerator = this->numerator * f.numerator;
-    result.denominator = this->denominator * f.denominator;
+    result.m_numerator = this->m_numerator * f.m_numerator;
+    result.m_denominator = this->m_denominator * f.m_denominator;
     return result;
 }
 
 Fraction Fraction::divide(const Fraction& f){
     Fraction result;
-    result.numerator = this->numerator * f.denominator;
-    result.denominator = this->denominator * f.numerator;
+    result.m_numerator = this->m_numerator * f.m_denominator;
+    result.m_denominator = this->m_denominator * f.m_numerator;
     return result;
 }
 
 void Fraction::read() {
     std::cout << "Geben sie den Nenner ein: ";
-    std::cin >> this->numerator;
-    int denominator = 0;
-    while (!denominator) {
+    std::cin >> this->m_numerator;
+    int m_denominator = 0;
+    while (!m_denominator) {
         std::cout << "Geben sie den Zaehler ein: ";
-        std::cin >> denominator;
+        std::cin >> m_denominator;
     }
-    this->denominator = denominator;
+    this->m_denominator = m_denominator;
 }
 
 void Fraction::print() {
-    std::cout << this->numerator << "/" << this->denominator << std::endl;
+    this->format();
+    std::cout << this->m_numerator << "/" << this->m_denominator << std::endl;
 }
 
 int Fraction::gcd(int p, int q) {
@@ -75,17 +76,59 @@ int Fraction::gcd(int p, int q) {
 }
 
 void Fraction::cancel(){
-    int gcdNumDenom = gcd(this->numerator, this->denominator);
-    this->numerator /= gcdNumDenom;
-    this->denominator /= gcdNumDenom;
+    int gcdNumDenom = gcd(this->m_numerator, this->m_denominator);
+    this->m_numerator /= gcdNumDenom;
+    this->m_denominator /= gcdNumDenom;
 }
 
 void Fraction::format() {
     cancel();
-    if (this->denominator < 0) {
-        this->numerator = -this->numerator;
-        this->denominator = -this->denominator;
+    if (this->m_denominator < 0) {
+        this->m_numerator = -this->m_numerator;
+        this->m_denominator = -this->m_denominator;
     }
-    else if (this->denominator == 0)
+    else if (this->m_denominator == 0)
         std::cout << "Nenner darf nicht Null sein!" << std::endl;
+}
+
+Fraction Fraction::operator+(const Fraction& rhs) {
+    return this->add(rhs);
+}
+
+Fraction Fraction::operator-(const Fraction& rhs) {
+    return this->subtract(rhs);
+}
+
+Fraction Fraction::operator*(const Fraction& rhs) {
+    return this->multiply(rhs);
+}
+
+Fraction Fraction::operator/(const Fraction& rhs) {
+    return this->divide(rhs);
+}
+
+int Fraction::get_numerator(){
+    return this->m_numerator;
+}
+
+int Fraction::get_denominator(){
+    return this->m_denominator;
+}
+
+void Fraction::set_numerator(int numerator) {
+    this->m_numerator = numerator;
+}
+
+void Fraction::set_denominator(int denominator) {
+    this->m_numerator = denominator;
+}
+
+std::ostream& operator<<(std::ostream& os, Fraction& f) {
+    std::cout << f.get_numerator() << "/" << f.get_denominator();
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, Fraction& f) {
+    char slash = 0;
+    return is >> f.m_numerator >> slash >> f.m_denominator;
 }

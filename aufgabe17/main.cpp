@@ -2,7 +2,7 @@
 #include "fraction.hpp"
 
 int main() {
-
+    //no operator overloading
     {
         using namespace std;
         // local variables!
@@ -31,5 +31,36 @@ int main() {
         f3.print();
         f3 = f1; // Zuweisungsoperator
         f3.print();
+    }
+
+    //using operator overloading
+    {
+        using namespace std;
+        // local variables!
+        Fraction f1; // Standardkonstruktor mir vorbelegten Werten
+        Fraction f2; // siehe oben
+        Fraction result;
+        cin >> f1;
+        cin >> f2;
+        cout << endl << "Erster Bruch: ";
+        cout << f1 << endl;
+        cout << "Zweiter Bruch: ";
+        cout << f2;
+        cout << endl << "Addition:" << endl; // Addition
+        result = f1 + f2;
+        cout << result << endl;
+        cout << endl << "Subtraktion:" << endl; // Substraktion
+        result = f1 - f2;
+        cout << result << endl;
+        cout << endl << "Multiplikation:" << endl; // Multiplikation
+        result = f1 * f2;
+        cout << result << endl;
+        cout << endl << "Division: " << endl; // Division
+        result = f1 / f2;
+        cout << result << endl;
+        Fraction f3 = result; // Kopierkonstruktor
+        cout << f3 << endl;
+        f3 = f1; // Zuweisungsoperator
+        cout << f3 << endl;
     }
 }
